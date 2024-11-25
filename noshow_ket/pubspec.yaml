@@ -20,3 +20,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/cookies.png
+    - assets/ItemListImage.png
+    - assets/LikeImage.png
+    - assets/ReservationImage.png
