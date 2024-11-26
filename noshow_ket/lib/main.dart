@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'widgets.dart';
+import 'gps.dart';
+import 'like_list.dart';
+import 'mypage.dart';
+import 'reservation_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,6 +32,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int _currentIndex = 0;
 
+  final List<Widget> _pages = [
+    HomeScreen(),
+    GpsPage(),
+    LikePage(),
+    ReservationPage(),
+    SettingsPage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
+      body: _currentIndex == 0
+          ? SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -166,13 +179,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-      ),
+      )
+          : _pages[_currentIndex],  // 나머지 페이지는 탭에 맞는 페이지로 표시
+
       bottomNavigationBar: BottomNavigationBar(
         items: buildBottomNavigationItems(_currentIndex),
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
-            _currentIndex = index;
+            _currentIndex = index;  // 탭 선택 시 페이지 변경
           });
         },
         selectedItemColor: const Color(0xFFF8C71D9),
@@ -180,7 +195,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
   Widget buildCardItem(IconData icon, String title, String subtitle) {
     return Container(
       margin: EdgeInsets.only(bottom: 14),
@@ -218,3 +232,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+

@@ -27,7 +27,7 @@ List<BottomNavigationBarItem> buildBottomNavigationItems(int selectedIndex) {
             ? const Color(0xFF8C71D9)
             : const Color(0xFFBDBDBD),
       ),
-      label: '즐겨찾기',
+      label: '좋아요',
     ),
     BottomNavigationBarItem(
       icon: Icon(

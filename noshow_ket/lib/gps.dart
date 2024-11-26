@@ -1,21 +1,7 @@
 import 'package:flutter/material.dart';
-import 'widgets.dart';
+import 'item_list.dart';
 //이미지: 'assets/gps.png' - 해상도: 900 * 776
-//색상: F8C71D9
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: GpsPage(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
+//색상: 8C71D9
 
 class GpsPage extends StatefulWidget {
   @override
@@ -80,7 +66,10 @@ class _GpsPageState extends State<GpsPage>{
               child: Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    // itemlist로 넘어감
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ItemPage()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFF8C71D9),
@@ -100,17 +89,6 @@ class _GpsPageState extends State<GpsPage>{
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: buildBottomNavigationItems(_currentIndex),
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        selectedItemColor: const Color(0xFFF8C71D9),
-        unselectedItemColor: const Color(0xFFBDBDBD),
       ),
     );
   }

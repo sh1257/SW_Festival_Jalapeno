@@ -1,19 +1,4 @@
 import 'package:flutter/material.dart';
-import 'widgets.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SettingsPage(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -122,7 +107,7 @@ class _SettingsPageState extends State<SettingsPage> {
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                '\n  개인정보 관리',
+                '  개인정보 관리',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -226,23 +211,6 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       backgroundColor: const Color(0xFFF5F5F5),
-      bottomNavigationBar: BottomNavigationBar(
-        items: buildBottomNavigationItems(_currentIndex),
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-    if (index == 4) {
-    Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => SettingsPage()),
-    );
-    }
-    },
-        selectedItemColor: const Color(0xFFF8C71D9),
-        unselectedItemColor: const Color(0xFFBDBDBD),
-      ),
     );
   }
   void dialog1() async {
