@@ -19,8 +19,4 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/cookies.png
-    - assets/gps.png
-    - assets/ItemListImage.png
-    - assets/LikeImage.png
-    - assets/ReservationImage.png
+    - assets/
