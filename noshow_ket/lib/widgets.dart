@@ -27,7 +27,7 @@ List<BottomNavigationBarItem> buildBottomNavigationItems(int selectedIndex) {
             ? const Color(0xFF8C71D9)
             : const Color(0xFFBDBDBD),
       ),
-      label: '즐겨찾기',
+      label: '좋아요',
     ),
     BottomNavigationBarItem(
       icon: Icon(
@@ -36,7 +36,7 @@ List<BottomNavigationBarItem> buildBottomNavigationItems(int selectedIndex) {
             ? const Color(0xFF8C71D9)
             : const Color(0xFFBDBDBD),
       ),
-      label: '티켓',
+      label: '예약',
     ),
     BottomNavigationBarItem(
       icon: Icon(
@@ -45,7 +45,7 @@ List<BottomNavigationBarItem> buildBottomNavigationItems(int selectedIndex) {
             ? const Color(0xFF8C71D9)
             : const Color(0xFFBDBDBD),
       ),
-      label: '랭킹',
+      label: '마이페이지',
     ),
   ];
 }
