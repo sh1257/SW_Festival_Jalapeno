@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'widgets.dart';
+import 'gps.dart';
+import 'like_list.dart';
+import 'mypage.dart';
+import 'reservation_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,149 +28,202 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final List<String> carouselImages = [
     'assets/cookies.png',
+    'assets/pottery.jpg',
   ];
 
   int _currentIndex = 0;
+  int _carouselIndex = 0;
+
+  final List<Widget> _pages = [
+    HomeScreen(),
+    GpsPage(),
+    LikePage(),
+    ReservationPage(),
+    SettingsPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text(
+          'NOSHOW-KET',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 상단 이미지 배너
-            CarouselSlider(
-              items: carouselImages.map((imagePath) {
-                return Stack(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(imagePath),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      width: double.infinity,
-                      margin: EdgeInsets.symmetric(horizontal: 8),
-                    ),
-                    Positioned(
-                      bottom: 20,
-                      left: 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: Colors.white,
+      body: _currentIndex == 0
+          ? SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 상단 이미지 배너
+                  CarouselSlider(
+                    items: carouselImages.map((imagePath) {
+                      return Stack(
                         children: [
-                          Text(
-                            "TODAY'S PICK",
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                          Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(imagePath),
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(16),
                             ),
+                            width: double.infinity,
+                            margin: const EdgeInsets.symmetric(horizontal: 8),
                           ),
-                          Text(
-                            "Susan's Baking Class",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white70,
+                          const Positioned(
+                            bottom: 20,
+                            left: 20,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "TODAY'S PICK",
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  "오늘의 노쇼켓을 만나보세요.",
+                                  style: TextStyle(
+                                    fontSize: 16.5,
+                                    color: Colors.white70,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
-                      ),
+                      );
+                    }).toList(),
+                    options: CarouselOptions(
+                      height: 280,
+                      enlargeCenterPage: true,
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 3),
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _carouselIndex = index;
+                        });
+                      },
                     ),
-                  ],
-                );
-              }).toList(),
-              options: CarouselOptions(
-                height: 280,
-                enlargeCenterPage: true,
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 3),
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-              ),
-            ),
-
-            SizedBox(height: 10),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: carouselImages.asMap().entries.map((entry) {
-                return AnimatedContainer(
-                  duration: Duration(milliseconds: 300),
-                  width: _currentIndex == entry.key ? 12 : 8,
-                  height: 8,
-                  margin: EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _currentIndex == entry.key
-                        ? const Color(0xFF8C71D9)
-                        : Colors.grey.withOpacity(0.5),
                   ),
-                );
-              }).toList(),
-            ),
 
-            SizedBox(height: 16),
+                  const SizedBox(height: 10),
 
-            // 검색 바
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Search',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: carouselImages.asMap().entries.map((entry) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        width: _carouselIndex == entry.key ? 12 : 8,
+                        height: 8,
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _carouselIndex == entry.key
+                              ? const Color(0xFF8C71D9)
+                              : Colors.grey.withOpacity(0.5),
                         ),
-                      ),
+                      );
+                    }).toList(),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // 검색 바
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: const Color(0xFFF0F0F0),
+                              hintText: 'Search',
+                              hintStyle:
+                                  const TextStyle(color: Color(0xFF777777)),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.search),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(width: 8),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.search),
+
+                  const SizedBox(height: 25),
+
+                  // icon 5개
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        buildCategoryItem('assets/food.png', '먹거리'),
+                        buildCategoryItem('assets/class.jpg', '원데이클래스'),
+                        buildCategoryItem('assets/show.jpg', '공연'),
+                        buildCategoryItem('assets/beauty.png', '뷰티'),
+                        buildCategoryItem('assets/etc.png', '기타'),
+                      ],
+                    ),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.favorite_border),
+
+                  const SizedBox(height: 25),
+
+                  // 오늘의 핫딜 텍스트
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '오늘의 핫딜',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // 가로 스크롤 이미지들
+                  const SizedBox(height: 16),
+                  SingleChildScrollView(
+                    padding: EdgeInsets.only(left: 20.0),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        buildRoundedImage('assets/onedayPottery.jpg'),
+                        buildRoundedImage('assets/pibu.jpg'),
+                        buildRoundedImage('assets/wood.jpeg'),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
-
-            SizedBox(height: 16),
-
-            // 카드 리스트
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  buildCardItem(Icons.location_on, "Where am I?",
-                      "Find your noshow-ket places"),
-                  buildCardItem(Icons.local_fire_department, "Hot Deal",
-                      "Today's best offers"),
-                  buildCardItem(
-                      Icons.confirmation_num, "Tickets", "Get your tickets"),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+            )
+          : _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: buildBottomNavigationItems(_currentIndex),
         currentIndex: _currentIndex,
@@ -183,8 +240,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildCardItem(IconData icon, String title, String subtitle) {
     return Container(
-      margin: EdgeInsets.only(bottom: 14),
-      padding: EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: const Color(0xFF8C71D9).withOpacity(0.8),
         borderRadius: BorderRadius.circular(12),
@@ -192,13 +249,13 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Row(
         children: [
           Icon(icon, color: Colors.white, size: 40),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -206,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Text(
                 subtitle,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   color: Colors.white70,
                 ),
@@ -217,4 +274,49 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+Widget buildCategoryItem(String imagePath, String label) {
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          shape: BoxShape.circle,
+        ),
+        child: ClipOval(
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+      const SizedBox(height: 8),
+      Text(
+        label,
+        style: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    ],
+  );
+}
+
+Widget buildRoundedImage(String imagePath) {
+  return Container(
+    margin: const EdgeInsets.only(right: 16),
+    width: 330,
+    height: 185,
+    decoration: BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage(imagePath),
+        fit: BoxFit.cover,
+      ),
+      borderRadius: BorderRadius.circular(16),
+    ),
+  );
 }
